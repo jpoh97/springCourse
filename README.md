@@ -52,7 +52,7 @@ Para realizar esta tarea deberemos seguir los siguientes pasos.
 		
 Y tendremos nuestro proyecto Desplegado !!.	
 
-#JPA (Java Persistence API)
+# JPA (Java Persistence API)
 
 1. Marcar Entidad.
 
@@ -70,7 +70,7 @@ Y tendremos nuestro proyecto Desplegado !!.
 
 3. Usa hibernate para el manejo de la persistencia.
 
-4.Brinda una implementacion en tiempo real. 
+4. Brinda una implementacion en tiempo real. 
 
 Como mode ejemplo visualizaremos las operaciones CRUD con una base de datos h2(cache), inicialmente para esto deberemos adicionar las siguientes propiedades en nuestro aplication.properties
 
@@ -94,13 +94,13 @@ M --> Modelo , V --> View , C --> Controller
 
 1. Thymeleaf es un motor de template para Java.
 
-2.Gano mucha popularidad en el mundo de Spring.
+2. Gano mucha popularidad en el mundo de Spring.
 
 # Implementacion MVC.
 
 Con los componentes anteriormente descritos procederemos a crear una implementacion con el patron de diseño MVC en SpringFrameWork. En nuestro proyecto bajo la ruta de main/java/guru.springframework.spring5webapp crearemos los siguientes tres directorios.
 
-	1.model = La carpeta model hará referencia a todos los Pojos necesarios para poder mapear la informacion almacenada en Base de datos como objetos java. Estos models deberán llevar diferentes anotaciones indicandole a Spring que son entidades.
+1. model = La carpeta model hará referencia a todos los Pojos necesarios para poder mapear la informacion almacenada en Base de datos como objetos java. Estos models deberán llevar diferentes anotaciones indicandole a Spring que son entidades.
 
 		package guru.springframework.spring5webapp.model;
 
@@ -144,3 +144,75 @@ Con los componentes anteriormente descritos procederemos a crear una implementac
 
 		    public void setBook(Set<Book> book) { this.book = book;}
 		}
+
+2. repositories = Esta carpeta esta creada con base en la implemetacion de las interfaces de los repositorios JPA, estas brindan lo necesario para obtener las operaciones basicas CRUD de nuestra base de datos.(Podremos evitarnos en patron DAO o configuracion directa con JDBC)
+
+			package guru.springframework.spring5webapp.repositories;
+
+			import guru.springframework.spring5webapp.model.Author;
+			import org.springframework.data.repository.CrudRepository;
+
+			public interface AuthorRepository extends CrudRepository<Author, Long>{
+			}
+
+3. controller = Esta carpeta hará referencia a nuestro controladores, estos serán los encargados de la capa logica de nuestra aplicacion y de intercomunicar los diferentes modelos o entidades con la capa de presentacion o templates html.
+
+			package guru.springframework.spring5webapp.controllers;
+
+			import guru.springframework.spring5webapp.repositories.AuthorRepository;
+			import org.springframework.stereotype.Controller;
+			import org.springframework.ui.Model;
+			import org.springframework.web.bind.annotation.RequestMapping;
+
+			@Controller
+			public class authorController {
+
+			    private AuthorRepository authorRepository;
+
+			    public authorController(AuthorRepository authorRepository) {
+			        this.authorRepository = authorRepository;
+			    }
+
+			    @RequestMapping("/authors")
+			    public String getAuthors(Model model) {
+			        model.addAttribute("authors", authorRepository.findAll());
+			        return "authors";
+			    }
+			}
+
+Adicionalmente bajo main/resources deberemos crear la siguiente carpeta.
+
+1. templates = Esta carpeta hará referencia a todas nuestras vistas html, las cuales estaran enlazadas con el controlador.
+
+			<!DOCTYPE html>
+			<html lang="en" xmlns:th="http://www.thymeleaf.org">
+			<head>
+			    <meta charset="UTF-8"/>
+			    <title>Spring Framework Guru</title>
+			</head>
+			<body>
+			    <h1>Author List</h1>
+			    <table>
+			        <tr>
+			            <th>ID</th>
+			            <th>First Name</th>
+			            <th>Last Name</th>
+			            <th>Books</th>
+			        </tr>
+			        <tr th:each="author : ${authors}">
+			            <td th:text="${author.id}">1023</td>
+			            <td th:text="${author.firstName}">Andres</td>
+			            <td th:text="${author.lastName}">Montoya</td>
+			            <td>
+			                <ul th:each="book : ${author.book}">
+			                    <li th:text="${book.title}"></li>
+			                    <li th:text="${book.publisher.name}"></li>
+			                    <li th:text="${book.id}"></li>
+			                </ul>
+			            </td>
+			        </tr>
+			    </table>
+
+			</body>
+			</html>			
+

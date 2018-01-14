@@ -53,3 +53,94 @@ Para realizar esta tarea deberemos seguir los siguientes pasos.
 Y tendremos nuestro proyecto Desplegado !!.	
 
 #JPA (Java Persistence API)
+
+1. Marcar Entidad.
+
+2. Marcar Atributo ID.
+
+3. Etiqueta ManyToMany
+
+# Spring Data JPA
+
+## Spring Data Repositories.
+
+1. Permite sustituir la capa de persistencia.
+
+2. Es parte de una larga familia de proyectos Spring.
+
+3. Usa hibernate para el manejo de la persistencia.
+
+4.Brinda una implementacion en tiempo real. 
+
+Como mode ejemplo visualizaremos las operaciones CRUD con una base de datos h2(cache), inicialmente para esto deberemos adicionar las siguientes propiedades en nuestro aplication.properties
+
+		spring.h2.console.enabled=true
+		spring.h2.console.path=/ 
+
+Una vez realizado esto, podremos desplegar nuestra aplicacion y accede a localhost:8080, allí nos saldrá una consola de h2 donde prodremos visualizar la informaciond e la BD h2		
+
+# Spring MVC
+
+MVC es un patron de diseño para GUI y web aplicactions.
+M --> Modelo , V --> View , C --> Controller
+
+## Configuando Spring MVC
+
+1. Anotar clases controladoras con @Controller, con esto spring creará el clase como un bean lo cual será un componente de control de spring,
+
+2. Mapear las peticionems http con la anotacion @RequestMapping
+
+## Thymeleaf
+
+1. Thymeleaf es un motor de template para Java.
+
+2.Gano mucha popularidad en el mundo de Spring.
+
+# Implementacion MVC.
+
+Con los componentes anteriormente descritos procederemos a crear una implementacion con el patron de diseño MVC en SpringFrameWork. En nuestro proyecto bajo la ruta de main/java/guru.springframework.spring5webapp crearemos los siguientes tres directorios.
+
+	1.model = La carpeta model hará referencia a todos los Pojos necesarios para poder mapear la informacion almacenada en Base de datos como objetos java. Estos models deberán llevar diferentes anotaciones indicandole a Spring que son entidades.
+
+		package guru.springframework.spring5webapp.model;
+
+		import javax.persistence.*;
+		import java.util.HashSet;
+		import java.util.Set;
+
+		@Entity
+		public class Author {
+
+		    @Id
+		    @GeneratedValue(strategy = GenerationType.AUTO)
+		    private Long id;
+		    private String firstName;
+		    private String lastName;
+
+		    @ManyToMany(mappedBy = "authors")
+		    private Set<Book> book = new HashSet();
+
+		    public Author() {
+		    }
+
+		    public Author(String firstName, String lastName) {
+		        this.firstName = firstName;
+		        this.lastName = lastName;
+		    }
+
+		    public Long getId() { return id; }
+
+		    public void setId(Long id) { this.id = id; }
+
+		    public String getFirstName() { return firstName;}
+
+		    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+		    public String getLastName() { return lastName; }
+
+		    public void setLastName(String lastName) { this.lastName = lastName; }
+
+		    public Set<Book> getBook() { return book; }
+
+		    public void setBook(Set<Book> book) { this.book = book;}
+		}

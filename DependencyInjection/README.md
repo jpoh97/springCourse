@@ -92,5 +92,41 @@ import org.springframework.context.ApplicationContext;
 			}
 		}
 
-3. Con estos dos pasos podremos ejecutar nuestro proyecto y el resultado será la implemetacion de nuestro metodo hello, es decir un mensaje de "Hola" en la consola. Lo que nos quiere decir que spring se encarga del gestionamiento de lso beans en su contexto.
+3. Con estos dos pasos podremos ejecutar nuestro proyecto y el resultado será la implemetacion de nuestro metodo hello, es decir un mensaje de "Hola" en la consola. Lo que nos quiere decir que spring se encarga del gestionamiento de lso beans en su contexto en donde instancian clases que son nombradas como beans.
+
+# Basic Dependency Injection
+
+1. La Inyeccion de dependencias es donde una dependencia necesitada es inyecatada por otro objeto.
+
+2. La clase siendo inyectada no tiene la responsabilidad de intanciar el objeto siendo inyectado (Evitamos la declaracion de objetos new Object)
+
+## Tipos de Inyecion de dependencias.
+
+1. Por propiedades de clases(Menos preferido) --> Usando propiedades privates (No recomendado).
+
+2. Por medio de Setters (Area de mucho debate).
+
+3. Por medio de constructores (Más preferido).
+
+## Concrete Claseses Vs Interfaces
+
+1. DI puede realizarce sobre clases concretas o interfaces.
+
+2. Generalmente DI en clases concretas debe evitarse.
+
+3. DI con interfaces es más preferido, nos permite en tiempo de ejecucion decidir la implementacion a inyectar. Sigue el principio de segregation Interface ademas crea un codigo mucho más testeable.
+
+## Inversion de Control IoC
+
+1. Es una tecnica que termite que las dependencias sean inyectadas en tiempo real.
+
+2. Las dependencias no estan predeterminadas.
+
+Los marcos de trabajo amenudo juegan el rol de programa principal en la coordinacion y secuenciamiento de la actividad del programa . Esta invserion de control brinda a el marco de trabajo el poder de servir como un esqueleto extensible.
+
+## Diferencia en IoC y DI
+
+1. DI hace más referencia a la composicion entre clases, tu compones tus clases con DI en mente.
+
+2. IoC es ambiente del codigo en tiempo real,  Spring Framework IoC container.
 

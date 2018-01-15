@@ -216,3 +216,51 @@ Adicionalmente bajo main/resources deberemos crear la siguiente carpeta.
 			</body>
 			</html>			
 
+# Spring Configurations Options
+
+1. Configuracion basada en XML. Se ve mucho en Aplicacion legacy Spring
+
+2. Configuracion basada en anotaciones, fue introducida en Spring Framework 3, esta se basa en un scaneo de los componentes que son anotados a nivel de clase con @Controller, @Service, @Component, @Repository
+
+3. Configuracion basada en JAVA, usa clases java para definir Spring Beans, las clases de configuracion son definidas con la anotacion @Configuration y los bean son declarados con la anotacion @Bean
+
+4. Groovy Bean Definition DSL configuration, permite declarar beans in Groovy, prestado de grails
+
+## Which Use ??
+
+1. Se puede usar una combinacion de todos estos metodos.
+
+2. Estos metodos trabajan sin problemas a la hora de definir beans en el contexto de spring.
+
+3. La industria tiende a favor de la configuracion basada en JAVA
+
+# Spring Stereotypes
+
+Los Stereotypes son usadaos para definir Spring beans dentro del contexto de spring y esto se logra atravez de un scaneo de componentes en donde Spring busca en los diferentes paquetes por aquellas anotaciones referentes a stereotypes
+
+1. @Component, Indica que la clase anotada es un componente y creará un bean(Si no tienes un rol en especifico puedes usar un componente)
+
+2. @Controller, hace referencia a los controladores del patron de diseño MVC, adicionalmente pueden venir acompañados de @RequestMapping para las peticiones.
+
+3. @RestController, Tiene la misma funcionalidad de @Controller añadiendo la funcionalidad de response body(Es una anotacion que sirve para renderizar un objeto como respuesta a una peticion.)
+
+4. @Repository, es una anotacion que indica que estas accediendo a la capa de datos. Repository es un mecanismo para el encapsulamiento del storage y buscar emular el comportamiento de colecciones de objetos.
+
+5. @Service, Indica que la clase anotada es un Service(Es una operacion ofrecida como una interface que permanece en el modelo sin ningun estado de encapsulamiento) 
+
+# Componente Scan.
+
+El scaneo de componentes solo se realiza en el paquete donde se encuentre la anotacion @SpringBootAplication usalmente esta en la clase DiDemoApplication el cual es creado por SpringBoot.
+
+Para solucionar esto deberemos definir en cuales paquetes queremos que Spring realice la busqueda.
+
+		@ComponentScan(basePackages= {"guru.services","guru.springframework"})
+
+Con la anotacion anterior Spring ya no buscará en el paquete por defecto, por ende deberemos definir todos los paquetes en los cuales queremos buscar.		
+
+
+
+
+
+
+

@@ -220,9 +220,58 @@ Adicionalmente bajo main/resources deberemos crear la siguiente carpeta.
 
 1. Configuracion basada en XML. Se ve mucho en Aplicacion legacy Spring
 
+Para la configuracion basada en XML, inicialmente deberemos crear en nuestro directorio "resource" un archivo xml para representar el bean.
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<beans xmlns="http://www.springframework.org/schema/beans"
+		       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		    <bean name="chuckNorrisQuotes" class="guru.springframework.norris.chuck.ChuckNorrisQuotes"> </bean>
+		</beans>
+
+Como se puede observar creamos un bean en la parte inferior, el cual llamaremos chuckNorrisQuotes y pertenece a la clase guru.springframework.norris.chuck.ChuckNorrisQuotes, con esto ya tendremos la configuracion de nuestro bean para ser inyectado, adicionalmente en nuestra clase principal deberemos importar el classpath de este archivo para que pueda ser reconocido por Spring.
+
+package com.example.jokeapp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
+
+		@SpringBootApplication
+		@ImportResource("classpath:chuck-config.xml")
+		public class JokeappApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(JokeappApplication.class, args);
+			}
+		}
+		
+
 2. Configuracion basada en anotaciones, fue introducida en Spring Framework 3, esta se basa en un scaneo de los componentes que son anotados a nivel de clase con @Controller, @Service, @Component, @Repository
 
 3. Configuracion basada en JAVA, usa clases java para definir Spring Beans, las clases de configuracion son definidas con la anotacion @Configuration y los bean son declarados con la anotacion @Bean
+
+		package com.example.jokeapp.config;
+		import guru.springframework.norris.chuck.ChuckNorrisQuotes;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+
+		@Configuration
+		public class ChuckConfiguration {
+
+		    @Bean
+		    public ChuckNorrisQuotes ChuckNorrisQuotes() {
+		        return new ChuckNorrisQuotes();
+		    }
+		}
+
+La clase ChuckNorrisQuotes no estaba anotada por ende Spring no la reconocia como un bean, para esto utilizamos la configuracion con Java @Configuration y anotamos el metodo ChuckNorrisQuotes como un bean para poder inyectarlo donde sea necesario.
+
+	    private final ChuckNorrisQuotes chuckNorrisQuotes;
+
+	    public JokeServiceImp(ChuckNorrisQuotes chuckNorrisQuotes) {
+		        this.chuckNorrisQuotes = chuckNorrisQuotes;
+		    }
 
 4. Groovy Bean Definition DSL configuration, permite declarar beans in Groovy, prestado de grails
 
@@ -256,7 +305,58 @@ Para solucionar esto deberemos definir en cuales paquetes queremos que Spring re
 
 		@ComponentScan(basePackages= {"guru.services","guru.springframework"})
 
-Con la anotacion anterior Spring ya no buscará en el paquete por defecto, por ende deberemos definir todos los paquetes en los cuales queremos buscar.		
+Con la anotacion anterior Spring ya no buscará en el paquete por defecto, por ende deberemos definir todos los paquetes en los cuales queremos buscar.	
+
+# Spring Boot Configuration
+
+1. Maven o Gradle son soportados.
+
+2. Cada version de Spring Boot esta configurada para trabajar con una version especifica de Spring Framework.
+
+3. Otros sistemas como Ant pueden ser usados pero no es recomendado.}
+
+## Maven Support
+
+1. Los proyectos maven heredan desde el Spring Boot parent POM.
+
+2. Cuando no se especifique la version en tu POM, habilita la version que hereda de el "parent"
+
+3. El Spring Boot Maven Plugin permite empaquetar ejecutables jar.
+
+## Gradle Support.
+
+1. Gradle Support depende de Spring Boot Gradle Plugin.
+
+2. Requiere Gradle 3.4 o mayor.
+
+3. Gradle plugin brinda soporte para el manejo de dependencias, empaquetando como jar o war, y permitiendo que corras la aplicacion desde la linea de comandos.
+
+## Spring Boot Starters
+
+1. Starters estan en el nivel top de dependencias populares para librearias Java.
+
+2. Traeran dependencias para el proyecto y las relacionará con componentes Spring.
+
+3. Starter 'spring-boot-started-data-jpa' trae en:
+
+3.1 Hibernate
+3.2 Spring Data JPA
+
+# Anotacion Para Usar Spring Boot.
+
+1. @SpringBootApplication : Es la principal anotacion para usar Spring boot, esta incluye.
+
+1.1 @Configuration - Declara la clase como una Spring Configuration
+
+1.2 @EnableAutoConfiguration - Habilita la configuracion automatica, adicionalmente auto-configuracion traerá muchas clases de configuracion que brindan los jar de Spring Boot, por ende podemos especificar las clases a excluir de la siguiente manera.
+
+		@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+
+1.3 @ComponentScan - Escanea por componentes en el paquete actual y a todos sus paquetes hijos.
+
+
+
+
 
 
 

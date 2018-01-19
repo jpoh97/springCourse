@@ -591,6 +591,8 @@ Como observamos anteriormente podemos swichear entre perfiles, sin embargo si de
 
 El default profile es solo activo cuando no se especifica ningun perfil.
 
-# Spring Bean Life Cycle
+# Spring Bean Factory
+
+
 
 

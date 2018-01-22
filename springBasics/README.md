@@ -458,6 +458,96 @@ Esta opcion sirve para traer configuaciones especificadas en archivos externos, 
 
 Como pueden observar deberemos crear dos Bean, el primero hará referencia a la instancia de nuestro POJO anteriomente creado, el segundo a la instancia de un objeto capas de obtener la informacion de nuestro archivo, adicionalmente con la anotacion PropertySource le indicamos a nuestro clase de configuracion Java en donde esta el archivo. Las anotaciones @Value sirven para mapear los valores 	desde el archivo.
 
+# Multiple Property Files
+
+La implementacion es similar al paso anterior, deberemos crear nuestro archivo .properties, posteriormente nuestra clase POJOP y por ultimo una clase de configuracion, pero en esta deberemos asignar dos property source, de la siguiente manera.
+
+		@Configuration
+		@PropertySources({
+		        @PropertySource("classpath:datasource.properties"),
+		        @PropertySource("classpath:jms.properties")
+		})
+		public class PropertyConfig {
+
+		    @Autowired
+		    Environment env;
+
+		    @Value("${guru.username}")
+		    String user;
+
+		    @Value("${guru.password}")
+		    String password;
+
+		    @Value("${guru.dburl}")
+		    String url;
+
+		    @Value("${guru.jms.username}")
+		    String jmsUsername;
+
+		    @Value("${guru.jms.password}")
+		    String jmsPassword;
+
+		    @Value("${guru.jms.url}")
+		    String jmsUrl;
+
+		    @Bean
+		    public FakeDataSource fakeDataSource () {
+		        FakeDataSource fakeDataSource = new FakeDataSource();
+		        fakeDataSource.setUser(user);
+		        fakeDataSource.setPassword(password);
+		        fakeDataSource.setUrl(url);
+		        return fakeDataSource;
+		    }
+
+		    @Bean
+		    public FakeJMSSource fakeJMSSource () {
+		        FakeJMSSource fakeJMSSource = new FakeJMSSource();
+		        fakeJMSSource.setUsername(jmsUsername);
+		        fakeJMSSource.setPassword(jmsPassword);
+		        fakeJMSSource.setUrl(jmsUrl);
+		        return fakeJMSSource;
+		    }
+
+		    @Bean
+		    public static PropertySourcesPlaceholderConfigurer properties() {
+		        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+		        return propertySourcesPlaceholderConfigurer;
+		    }
+
+		}
+
+# YAML(Yet another markup languague)
+
+Es un lenguaje utilizado para describir estructuras de datos, este lenguaje se basa en el espaciado, por ende deberá ser tomado muy en cuenta a la hora de utilizarlo.
+
+#Archivos de configuracion Spring Boot.
+
+Para la configuracion de Spring Boot podemos utilizar los archivos application.properties o application.yml, en estos se podrán definir las caracteristicas que deseamos que Spring Boot contenga, tales como valores de variables, el perfil entre otras, a continuacion mostraremos un ejemplo con application.propierties y su similar en application.yml
+
+1. application.properties
+
+		guru.username=John
+		guru.password=somepass
+		guru.dburl=asdfghjk
+
+		guru.jms.username=Andrew
+		guru.jms.password=Andrew
+		guru.jms.url=zxcvbnm
+
+2. application.yml
+
+		guru:
+		  jms:
+		    username: YamlAndrew
+		    password: YamlPassAndres
+		    url: YamlUrl
+		  username: UsernameNomral
+		  password: PasswordNormal
+		  dburl: UrlNormal
+
+		  
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.jokeapp;
 
 import com.example.jokeapp.examplesbean.FakeDataSource;
+import com.example.jokeapp.examplesbean.FakeJMSSource;
 import javafx.application.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,5 +20,10 @@ public class JokeappApplication {
 		FakeDataSource fakeDataSource = (FakeDataSource) ctx.getBean(FakeDataSource.class);
 
 		System.out.println(fakeDataSource.getUser());
+
+
+		FakeJMSSource fakeJMSSource = (FakeJMSSource) ctx.getBean(FakeJMSSource.class);
+
+		System.out.println( fakeJMSSource.getUsername());
 	}
 }

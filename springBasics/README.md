@@ -96,7 +96,7 @@ M --> Modelo , V --> View , C --> Controller
 
 2. Gano mucha popularidad en el mundo de Spring.
 
-# Implementacion MVC.
+#  MVC.
 
 Con los componentes anteriormente descritos procederemos a crear una implementacion con el patron de diseño MVC en SpringFrameWork. En nuestro proyecto bajo la ruta de main/java/guru.springframework.spring5webapp crearemos los siguientes tres directorios.
 
@@ -333,6 +333,8 @@ Con la anotacion anterior Spring ya no buscará en el paquete por defecto, por e
 
 ## Spring Boot Starters
 
+Spring Boot Starters es un POM el cual declara un conjunto comun de dependencias. Spring Boot Starters estan disponibles para la mayoria de proyectos Java.
+
 1. Starters estan en el nivel top de dependencias populares para librearias Java.
 
 2. Traeran dependencias para el proyecto y las relacionará con componentes Spring.
@@ -353,6 +355,114 @@ Con la anotacion anterior Spring ya no buscará en el paquete por defecto, por e
 		@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 
 1.3 @ComponentScan - Escanea por componentes en el paquete actual y a todos sus paquetes hijos.
+
+#Spring Bean Scope
+
+1. Singleton, una sola instancia del bean es creada en IoC
+
+2. Prototype , una nueva instancia es creada cada vez que el bean es solicitado.
+
+3. Request, una sola instancia por peticion http,  solo disponible em el contexto de we-aware SpringAplicationContext
+
+4. Session, una sola instancia por sesion http,  solo disponible em el contexto de we-aware SpringAplicationContext
+
+5. Global sesion, una sola instancia por sesiones globales, tipicamente usada por contexto portlet,  solo disponible em el contexto de we-aware SpringAplicationContext
+
+6. Application, el alcance del bean será determinado por cyclo de vida Servlet Context.
+
+7. Websocket, el alcance del bean esta determinado por el ciclo de vida del websocket.
+
+8. Custom Scopes, los scopes de springs pueden ser extensible y se pueden definir su propio alcanse implementando la interface de spring "scope"
+
+# Property Source
+
+Esta opcion sirve para traer configuaciones especificadas en archivos externos, por ejemplo la contraseña y usarios de la base de datos. Para poder leer esta informacion deberemos seguir los siguiente pasos.
+
+1. Deberemos crear nuestro archivo donde almacenaremos la informacion. Para esto en nuestro directorio "resources", para este ejemplo lo llamremos datasource.properties, el archivo deberá llevar la extension de .properties
+
+2. Deberemos crear un POJO el cual contenga las propiedades que queremos buscar en nuestro archivo.
+
+		package com.example.jokeapp.examplesbean;
+
+		public class FakeDataSource {
+
+		    private String user;
+		    private String password;
+		    private String url;
+
+		    public String getUser() {
+		        return user;
+		    }
+
+		    public void setUser(String user) {
+		        this.user = user;
+		    }
+
+		    public String getPassword() {
+		        return password;
+		    }
+
+		    public void setPassword(String password) {
+		        this.password = password;
+		    }
+
+		    public String getUrl() {
+		        return url;
+		    }
+
+		    public void setUrl(String url) {
+		        this.url = url;
+		    }
+		}
+
+3. Deberemos crear los respectivos bean y las configuraciones necesarias para que el archivo sea leido.
+
+		package com.example.jokeapp.config;
+
+		import com.example.jokeapp.examplesbean.FakeDataSource;
+		import org.springframework.beans.factory.annotation.Value;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+		import org.springframework.context.annotation.PropertySource;
+		import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+		@Configuration
+		@PropertySource("classpath:datasource.properties")
+		public class PropertyConfig {
+
+		    @Value("${guru.username}")
+		    String user;
+
+		    @Value("${guru.password}")
+		    String password;
+
+		    @Value("${guru.dburl}")
+		    String url;
+
+		    @Bean
+		    public FakeDataSource fakeDataSource () {
+		        FakeDataSource fakeDataSource = new FakeDataSource();
+		        fakeDataSource.setUser(user);
+		        fakeDataSource.setPassword(password);
+		        fakeDataSource.setUrl(url);
+		        return fakeDataSource;
+		    }
+
+		    @Bean
+		    public static PropertySourcesPlaceholderConfigurer properties() {
+		        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+		        return propertySourcesPlaceholderConfigurer;
+		    }
+
+		}
+
+Como pueden observar deberemos crear dos Bean, el primero hará referencia a la instancia de nuestro POJO anteriomente creado, el segundo a la instancia de un objeto capas de obtener la informacion de nuestro archivo, adicionalmente con la anotacion PropertySource le indicamos a nuestro clase de configuracion Java en donde esta el archivo. Las anotaciones @Value sirven para mapear los valores 	desde el archivo.
+
+
+
+
+
+
 
 
 

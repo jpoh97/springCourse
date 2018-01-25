@@ -374,6 +374,8 @@ Spring Boot Starters es un POM el cual declara un conjunto comun de dependencias
 
 8. Custom Scopes, los scopes de springs pueden ser extensible y se pueden definir su propio alcanse implementando la interface de spring "scope"
 
+# External Properties.
+
 # Property Source
 
 Esta opcion sirve para traer configuaciones especificadas en archivos externos, por ejemplo la contraseña y usarios de la base de datos. Para poder leer esta informacion deberemos seguir los siguiente pasos.
@@ -545,7 +547,37 @@ Para la configuracion de Spring Boot podemos utilizar los archivos application.p
 		  password: PasswordNormal
 		  dburl: UrlNormal
 
-		  
+# HTTP		  
+
+# HTTP Methods
+
+1. Get --> Trae informacion desde el servidor.
+
+2. Post --> Envia informacion para el servidor, usualmente usado con forms.
+
+3. Put --> Actualiza informacion del servidor.
+
+4. Trace --> Hace un llamado al servidor esperando una respuesta, esto con el proposito de identificar que el servidor este escuchando y de identificar que no hayan intermediarios como proxys que esten captando la informacion.
+
+# HTTP Status Code
+
+1. 100 Series --> Son codigos informativos.
+
+2. 200 Series --> Indica una peticion exitosa. (200: Ok, 201 Created, 204 Accepted)
+
+3. 300 Series --> Significa redireccion. (301 Moved Permanently)
+
+4. 400 Series --> Significan errores del cliente, un coso podria darse en una mala implementacion de una peticion http. (400 Bad Request, 401 Not Authorized, 404 Not Found) 
+
+5. 500 Series --> Significa errores del servidor ( 500 Internal Server Error, 503 Service Unavailable).
+
+
+
+
+
+
+
+
 
 
 

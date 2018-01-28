@@ -571,6 +571,15 @@ Para la configuracion de Spring Boot podemos utilizar los archivos application.p
 
 5. 500 Series --> Significa errores del servidor ( 500 Internal Server Error, 503 Service Unavailable).
 
+# Intell IJ Configurations
+
+Para aumentar la producitividad y agilizar la tarea de desarrollo de software una importate configuracion es el autocompile, esto con el objetivo de que cuando guaremos algun cambio en nuestras clases estas sean reflejadas inmediatamente en el servidor. Para esto deberemos seguir los siguientes pasos.
+
+1. en IntellIJ presionaremos ctr+ shift+ a --> nos aparecerá un recuadro de busqueda y escribiremos Registry. Seleccionaremos esta opciones y buscaremos aquella que se llame compiler.automake.allow.when.app.running y habilitaremos.
+
+2. Luego de esto iremos a Project Setup --> Build, Execution and deployment --> Compiler --> Y en esta ventana habilitaremos la opcion de "Build Project Automatically"
+
+
 
 
 

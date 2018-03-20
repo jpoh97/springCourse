@@ -1,10 +1,11 @@
 package guru.springframework.controllers;
 
+import guru.springframework.commands.RecipeCommand;
+import guru.springframework.domain.Recipe;
 import guru.springframework.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by jt on 6/19/17.
@@ -24,5 +25,25 @@ public class RecipeController {
         model.addAttribute("recipe", recipeService.findById(new Long(id)));
 
         return "recipe/show";
+    }
+
+    @RequestMapping("recipe/new")
+    public String newRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+        return "recipe/recipeform";
+    }
+
+    @PostMapping
+    @RequestMapping("recipess")
+    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe/show/" +savedCommand.getId();
+    }
+
+    @PostMapping
+    @RequestMapping("recipeRaw")
+    public String savedRaw(@ModelAttribute Recipe recipe){
+        Recipe savedRecipe = recipeService.savedRawRecipe(recipe);
+        return "redirect:/recipe/show/" +savedRecipe.getId();
     }
 }

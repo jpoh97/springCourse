@@ -1,8 +1,0 @@
-guru:
-  jms:
-    username: YamlAndrew
-    password: YamlPassAndres
-    url: YamlUrl
-  username: UsernameNomral
-  password: PasswordNormal
-  dburl: UrlNormal

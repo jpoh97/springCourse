@@ -38,6 +38,12 @@ Pasos
 
 Con los pasos anteriores ya tendremos nuestro proyecto preconfigurado y listo para desplegar un servidor tomcat.
 
+## Crear Proyecto Reactivo
+
+		Web 	--> Reactive Web
+		NoSql 	-->  Reactive Mongo DB
+		NoSql	-->  Embedded Mongo DB
+
 ## Abrir el proyecto en nuestro IDE.
 
 Para realizar esta tarea deberemos seguir los siguientes pasos.
